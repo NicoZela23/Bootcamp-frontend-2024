@@ -1,0 +1,132 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.card{
+    background-color: black;
+    height: 100vh;
+    padding: 1rem;
+}
+.card-content{
+    border: none;
+    border-image: linear-gradient(to bottom, #0b2e36, #49778e) 2 2;
+    border-style: solid;
+    border-width: 7px;
+    background-color: #ad7a3d;
+    height: 100%;
+}
+
+.card-header-top{
+    border: none;
+    border-image: linear-gradient(to bottom, #eeeeee, #5e5b5b) 1 1;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow:  10px 10px 20px 0px rgba(0, 0, 0, 0.2);
+    perspective: 1000px;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+.card-header-top span{
+    font-weight:bolder;
+    font-size: 1.7rem;
+}
+
+.card-header-top img{
+    width: 40%;
+    height: auto;
+    max-width: 33px;
+}
+
+.card-header-top-2{
+    display: flex;
+    flex-direction: row-reverse;
+    padding-right: 1rem;
+}
+
+.card-header-top-2 img{
+    width: 70%;
+    height: auto;
+    max-width: 40px;
+}
+
+#card-header-power-star{
+    width: 4vw;
+    height: 4vw;
+    min-width: 30px;
+    min-height: 30px;
+    max-width: 40px;
+    max-height: 40px;
+    border-radius: 50%;
+    background-color: #c53b0f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    margin-right: 0.2rem;
+}
+main{
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+main img{
+    border: none;
+    border-image: linear-gradient(to bottom, #2e7c8f, #1c3643) 2 2;
+    border-style: solid;
+    border-width: 7px;
+    align-self: center;
+    max-width: 400px;
+    max-height: 400px;
+}
+.main-card-code{
+    width: 100%;
+    max-width: 410px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    box-sizing: border-box;
+}
+.card-information{
+    border: none;
+    border-image: linear-gradient(to bottom, #93571b, #86560e) 1 1;
+    border-style: solid;
+    border-width: 7px;
+    background-color: #f1e1c2;
+    margin-left: 1rem ;
+    margin-right: 1rem;
+    display: flex;
+    flex-direction: column;
+    height: 19vh;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.card-information-container{
+    display: flex;
+    flex-direction: column;
+    height:inherit;
+    justify-content: flex-end;
+    margin-bottom: 0.5rem;
+}
+
+.card-information-line{
+    border:1px solid black;
+}
+.card-information-stats{
+    display: flex;
+    justify-content: end;
+}
+.card-information-stats span{
+    margin-top: 0.2rem;
+    padding-left: 0.5rem;
+}
+.card-information-ID{
+    display: flex;
+    justify-content:space-between;
+    margin-left: 1rem;
+    margin-right: 1.2rem;
+}
