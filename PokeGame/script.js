@@ -44,7 +44,7 @@ function showSelectedPokemon() {
       const pokemonInfoDiv = document.getElementById("pokegame-info");
 
       pokemonInfoDiv.innerHTML = `
-          <img class ="hide" src= ${
+          <img id ="hide" src= ${
             "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/" +
             id +
             ".png"
@@ -106,11 +106,14 @@ async function search() {
 function checkButtonName(event) {
   getPokemonValues(pokemonValues[selectedPokemon]).then((correctName) => {
     const buttonName = event.target.textContent;
+    const hideImage = document.getElementById("hide");
 
     if (buttonName === correctName) {
       event.target.style.backgroundColor = "green";
+      hideImage.style.filter = "brightness(1)";
     } else {
       event.target.style.backgroundColor = "red";
+      hideImage.style.filter = "brightness(0)";
     }
   });
 }

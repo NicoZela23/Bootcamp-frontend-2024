@@ -91,6 +91,6 @@ body{
     transform: translateY(2px);
 }
 
-.hide{
+#hide{
     filter:brightness(0);
 }
