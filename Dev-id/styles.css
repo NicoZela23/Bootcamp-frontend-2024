@@ -1,0 +1,63 @@
+body{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.id-container{
+    border: 5px solid black;
+}
+
+.id-company-name{
+    
+}
+
+
+
+.id-company-name img{
+
+}
+
+.id-worker-info-img-container{
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+.id-worker-info-img-container img{
+    border-radius: 80px;
+    max-width:  50%;
+}
+
+.id-worker-info{
+background-color: black;
+display: flex;
+align-items: center;
+flex-direction: column;
+}
+
+.id-worker-info span{
+    color: white;
+    padding: 1.5rem;
+    font-size: 6vh;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+}
+
+.id-position-info{
+    background-color: #f21d3d;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+}
+
+.id-position-info span{
+    color: white;
+    padding: 1rem;
+    font-size: 6vh;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+}
