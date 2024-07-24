@@ -1,0 +1,14 @@
+.Cinema-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    gap: 10px;
+    justify-items: center;
+    align-items: center;
+}
+
+.seat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
