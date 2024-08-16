@@ -1,6 +1,7 @@
 import styles from './Checkout.module.css';
 import { LoadingIcon } from './Icons';
-// import { getProducts } from './dataService';
+import { getProducts } from './dataService';
+import { useState, useEffect} from 'react';
 
 // You are provided with an incomplete <Checkout /> component.
 // You are not allowed to add any additional HTML elements.
@@ -21,36 +22,92 @@ import { LoadingIcon } from './Icons';
 //  - All dollar amounts should be displayed to 2 decimal places
 
 
+type ProductProps = {
+  id: number;
+  name: string;
+  availableCount: number;
+  price: number;
+  orderedQuantity: number;
+  onIncrease: (id: number) => void;
+  onDecrease: (id: number) => void;
+  total: (price: number, quantity: number) => number;
+};
 
-const Product = ({ id, name, availableCount, price, orderedQuantity, total }) => {
+type ProductSecond = {
+  id: number;
+  name: string;
+  price: number;
+  availableCount: number;
+};
+
+type OrderProduct = ProductSecond & {
+  orderedQuantity: number;
+};
+
+const Product = ({id, name, availableCount, price, orderedQuantity, onIncrease, onDecrease, total}: ProductProps) => {
   return (
     <tr>
       <td>{id}</td>
       <td>{name}</td>
       <td>{availableCount}</td>
-      <td>${price}</td>
-      <td>{orderedQuantity}</td>   
-      <td>${total}</td>
+      <td>${price.toFixed(2)}</td>
+      <td>{orderedQuantity}</td>
+      <td>${total(price, orderedQuantity).toFixed(2)}</td>
       <td>
-        <button className={styles.actionButton}>+</button>
-        <button className={styles.actionButton}>-</button>
+        <button
+          className={styles.actionButton}
+          onClick={() => onIncrease(id)}
+          disabled={orderedQuantity >= availableCount}
+        >
+          +
+        </button>
+        <button
+          className={styles.actionButton}
+          onClick={() => onDecrease(id)}
+          disabled={orderedQuantity <= 0}
+        >
+          -
+        </button>
       </td>
     </tr>    
   );
-}
+};
 
 
 const Checkout = () => {
+  const [products, setProducts] = useState<ProductSecond[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [orderTotal, setOrderTotal] = useState<number>(0);
+  const [discount, setDiscount] = useState<number>(0);
+  const [orderProducts, setOrderProducts] = useState<Record<number, OrderProduct>>({});
+
+  useEffect(() => {
+    getProducts().then(products => {
+      setProducts(products);
+      const initialOrderProducts: Record<number, OrderProduct> = products.reduce((acc, product) => {
+        acc[product.id] = {
+          ...product,
+          orderedQuantity: 0
+        };
+        return acc;
+      }, {} as Record<number, OrderProduct>);
+      setOrderProducts(initialOrderProducts);
+      setLoading(false);
+    });
+  }, []);
+
+ 
+  
   return (
     <div>
       <header className={styles.header}>        
         <h1>Electro World</h1>        
       </header>
       <main>
-        <LoadingIcon />        
-        <table className={styles.table}>
-          <thead>
-            <tr>
+        {loading ? <LoadingIcon /> : (
+          <table className={styles.table}>
+            <thead>
+              <tr>
               <th>Product ID</th>
               <th>Product Name</th>
               <th># Available</th>
@@ -62,12 +119,25 @@ const Checkout = () => {
             </tr>
           </thead>
           <tbody>
-          {/* Products should be rendered here */}
-          </tbody>
+              {products.map(product => (
+                <Product
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  availableCount={product.availableCount}
+                  price={product.price}
+                  orderedQuantity={orderProducts[product.id]?.orderedQuantity || 0}
+                  onIncrease={handleIncrease}
+                  onDecrease={handleDecrease}
+                  total={calculateTotal}
+                />
+              ))}
+            </tbody>
         </table>
-        <h2>Order summary</h2>
-        <p>Discount: $ </p>
-        <p>Total: $ </p>       
+        )}
+         <h2>Order summary</h2>
+        {discount > 0 && <p>Discount: ${discount.toFixed(2)}</p>}
+        <p>Total: ${orderTotal.toFixed(2)}</p>       
       </main>
     </div>
   );
