@@ -2,6 +2,7 @@ import styles from './Checkout.module.css';
 import { LoadingIcon } from './Icons';
 import { getProducts } from './dataService';
 import { useState, useEffect} from 'react';
+import { Product } from "./types";
 
 // You are provided with an incomplete <Checkout /> component.
 // You are not allowed to add any additional HTML elements.
@@ -33,18 +34,11 @@ type ProductProps = {
   total: (price: number, quantity: number) => number;
 };
 
-type ProductSecond = {
-  id: number;
-  name: string;
-  price: number;
-  availableCount: number;
-};
-
-type OrderProduct = ProductSecond & {
+type OrderProduct = Product & {
   orderedQuantity: number;
 };
 
-const Product = ({id, name, availableCount, price, orderedQuantity, onIncrease, onDecrease, total}: ProductProps) => {
+const ProductComponent = ({id, name, availableCount, price, orderedQuantity, onIncrease, onDecrease, total}: ProductProps) => {
   return (
     <tr>
       <td>{id}</td>
@@ -75,7 +69,7 @@ const Product = ({id, name, availableCount, price, orderedQuantity, onIncrease, 
 
 
 const Checkout = () => {
-  const [products, setProducts] = useState<ProductSecond[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [orderTotal, setOrderTotal] = useState<number>(0);
   const [discount, setDiscount] = useState<number>(0);
@@ -96,7 +90,43 @@ const Checkout = () => {
     });
   }, []);
 
- 
+  const handleIncrease = (id: number) => {
+    setOrderProducts(prev => {
+      const product = prev[id];
+      if (product.orderedQuantity < product.availableCount) {
+        const updatedProduct = { ...product, orderedQuantity: product.orderedQuantity + 1 };
+        const updatedOrderProducts = { ...prev, [id]: updatedProduct };
+        return updateOrderTotal(updatedOrderProducts);
+      }
+      return prev;
+    });
+  };
+
+  const handleDecrease = (id: number) => {
+    setOrderProducts(prev => {
+      const product = prev[id];
+      if (product.orderedQuantity > 0) {
+        const updatedProduct = { ...product, orderedQuantity: product.orderedQuantity - 1 };
+        const updatedOrderProducts = { ...prev, [id]: updatedProduct };
+        return updateOrderTotal(updatedOrderProducts);
+      }
+      return prev;
+    });
+  };
+
+
+  const calculateTotal = (price: number, quantity: number) => price * quantity;
+
+  const updateOrderTotal = (orderProducts: Record<number, OrderProduct>) => {
+    let total = 0;
+    for (const product of Object.values(orderProducts)) {
+      total += calculateTotal(product.price, product.orderedQuantity);
+    }
+    const discountAmount = total > 1000 ? total * 0.10 : 0;
+    setOrderTotal(total - discountAmount);
+    setDiscount(discountAmount);
+    return orderProducts;
+  };
   
   return (
     <div>
@@ -120,7 +150,7 @@ const Checkout = () => {
           </thead>
           <tbody>
               {products.map(product => (
-                <Product
+                <ProductComponent
                   key={product.id}
                   id={product.id}
                   name={product.name}

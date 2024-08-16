@@ -1,9 +1,4 @@
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  availableCount: number;
-};
+import { Product } from "./types";
 
 export function getProducts(): Promise<Product[]> {
   return getData('/products.json')
